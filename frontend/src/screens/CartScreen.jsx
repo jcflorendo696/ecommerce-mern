@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
-import { addToCart } from '../slices/cartSlice';
+import { addToCart, removeFromCart } from '../slices/cartSlice';
 
 
 const CartScreen = () => {
@@ -15,6 +15,14 @@ const CartScreen = () => {
 
     const addToCartHandler = async (product, qty) => {
         dispatch(addToCart({...product, qty}));
+    }
+
+    const removeFromCartHandler = async (id) => {
+        dispatch(removeFromCart(id));
+    }
+
+    const checkoutHandler = () => {
+        navigate('/login?redirect=/shipping');
     }
 
     return (
@@ -49,7 +57,7 @@ const CartScreen = () => {
                                     )}</Form.Control>
                                     </Col>
                                     <Col md={2}>
-                                            <Button variant='light' type='button'><FaTrash></FaTrash></Button>
+                                            <Button variant='light' type='button' onClick={ () => removeFromCartHandler(item._id) }><FaTrash></FaTrash></Button>
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
@@ -67,7 +75,7 @@ const CartScreen = () => {
                             ${ cartItems.reduce( (acc, item) => acc + item.price * item.qty, 0).toFixed(2)}
                         </ListGroupItem>
                         <ListGroupItem>
-                            <Button type='button' className='btn-block' disabled={ cartItems.length == 0 }>Proceed to Checkout</Button>
+                            <Button type='button' className='btn-block' disabled={ cartItems.length == 0 } onClick={ () => checkoutHandler }>Proceed to Checkout</Button>
                         </ListGroupItem>
                     </ListGroup>
                 </Card>
