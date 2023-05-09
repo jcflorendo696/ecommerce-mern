@@ -11,16 +11,21 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
+            // The item to be added to the cart
             const item = action.payload
+
+            // Check if the item is already in the cart 
             const existItem = state.cartItems.find((x)=>{
                 return x._id === item._id;
             })
 
             if(existItem){
+                // If exists, update quantity
                 state.cartItems = state.cartItems.map((x)=>{
                     return x._id === existItem._id ? item : x
                 });
             } else {
+                // If not exists, add new item to cartItems
                 state.cartItems = [...state.cartItems, item]
             }
 
@@ -36,6 +41,7 @@ const cartSlice = createSlice({
             // Calculate total price
             state.totalPrice = (Number(state.itemsPrice) + Number(state.shippingPrice) + Number(state.taxPrice)).toFixed(2);
 
+            // Save the cart to localStorage
             localStorage.setItem('cart', JSON.stringify(state));
         },
     },
