@@ -75,7 +75,7 @@ const CartScreen = () => {
                             ${ cartItems.reduce( (acc, item) => acc + item.price * item.qty, 0).toFixed(2)}
                         </ListGroupItem>
                         <ListGroupItem>
-                            <Button type='button' className='btn-block' disabled={ cartItems.length == 0 } onClick={ () => checkoutHandler }>Proceed to Checkout</Button>
+                            <Button type='button' className='btn-block' disabled={ cartItems.length == 0 } onClick={ () => checkoutHandler() }>Proceed to Checkout</Button>
                         </ListGroupItem>
                     </ListGroup>
                 </Card>
