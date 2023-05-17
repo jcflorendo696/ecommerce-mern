@@ -46,6 +46,44 @@ const OrderScreen = () => {
         }
     }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
 
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then(async (details)=>{
+            try{
+                await payOrder({
+                    orderId,
+                    details,
+                });
+                refetch();
+                toast.success('Payment successful');
+            }catch(error){
+                toast.error(error?.data?.message || error.message);
+            }
+        });
+    }
+
+    const onApproveTest = async () => {
+        await payOrder({ orderId, details: {payer: {} }});
+        refetch();
+        toast.success('Payment successful');
+    }
+
+    const onError = (err) => {
+        toast.error(err.message);
+    }
+
+    const createOrder = (data, actions) => {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    amount: {
+                        value: order.totalPrice,
+                    },
+                },
+            ],
+        }).then((orderId)=>{
+            return orderId;
+        });
+    }
 
     return isLoading ? <Loader></Loader> : error ? <Message variant='danger'>No orders</Message> : (
         <>
@@ -132,7 +170,22 @@ const OrderScreen = () => {
                                         <Col>${order.totalPrice}</Col>
                                     </Row>
                                 </ListGroup.Item>
-                                {/* PAY ORDER PLACEHOLDER */}
+                                    { /* PAY ORDER PLACEHOLDER */ }
+                                    { !order.isPaid && (
+                                        <ListGroup.Item>
+                                            {loadingPay && <Loader />}
+
+                                            {isPending ? <Loader /> : (
+                                                <div>
+                                                    <Button onClick={ onApproveTest } style={{ marginBottom: '10px'}}>Test Pay Order</Button>
+                                                    <div>
+                                                        <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </ListGroup.Item>
+                                    )}
+
                                 {/* MARK AS DELIVERED PLACEHOLDER */}
                         </ListGroup>
                     </Card>

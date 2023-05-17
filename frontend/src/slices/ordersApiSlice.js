@@ -28,7 +28,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                 url: PAYPAL_URL,
             }),
             keepUnusedDataFor: 5,
-        })
+        }),
     }),
 });
 
