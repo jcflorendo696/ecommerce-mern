@@ -1,6 +1,6 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Row, Col } from 'react-bootstrap';
-import { FaTimes, FaCheck, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaCheck, FaEdit, FaTrash } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loading';
 import { useGetProductsQuery, useCreateProductMutation } from '../../slices/productsApiSlice';
