@@ -67,9 +67,9 @@ const UserEditScreen = () => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group controlId='isadmin' className='my-2'>
                             <Form.Label>Is Admin?</Form.Label>
-                            <Form.Check type='checkbox' label='Is Admin' checked={isAdmin} onChange={ (e)=> setIsAdmin(e.target.checked) }></Form.Check>
+                            <Form.Check type='checkbox' label='Is Admin' checked={isAdmin} onChange={ (e) => setIsAdmin(e.target.checked) }></Form.Check>
                         </Form.Group>
 
                         <Button type='submit' variant='primary' className='my-2'>

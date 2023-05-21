@@ -166,15 +166,15 @@ const updateUser = asyncHandler(async (req, res) => {
     if(user){
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
-        user.isAdmin = req.body.isAdmin || user.isAdmin;
+        user.isAdmin = req.body.isAdmin;
 
         const updatedUser = await user.save();
 
         res.status(200).json({
-            _id: updateUser._id,
+            _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
-            isAdmin: updateUser.isAdmin
+            isAdmin: updatedUser.isAdmin
         });
     }else{
         res.status(404);
