@@ -58,9 +58,13 @@ const ProductEditScreen = () => {
             toast.success(res.message);
             setImage(res.image);
         }catch(err){
-            toast.error(err?.data?.message || err.message);
+            toast.error(err?.data?.message || err.error);
         }
 
+        // Takes in an event object.
+        // That event object has target.files.
+        // Depending on the number of uploaded files is the array length.
+        // [0] because right now its only one.
         console.log(e.target.files[0]);
     }
 
