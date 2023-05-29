@@ -125,7 +125,7 @@ const ProductEditScreen = () => {
                         </Form.Group>
                         <Form.Group controlId='description' className='my-3'>
                             <Form.Label>Description</Form.Label>
-                            <Form.Control type='text' placeholder='Enter Description' value={description} onChange={(e) => setDescription(e.target.value)}>
+                            <Form.Control as='textarea' rows={5} placeholder='Enter Description' value={description} onChange={(e) => setDescription(e.target.value)}>
                             </Form.Control>
                         </Form.Group>
                         <Button type='submit' variant='primary' className='my-2'>
