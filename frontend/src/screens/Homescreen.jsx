@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
 import { Link } from 'react-router-dom';
 import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 
 const HomeScreen = () => {
     const { pageNumber, keyword } = useParams();
@@ -15,7 +16,7 @@ const HomeScreen = () => {
 
     return (
         <>
-            
+            <Meta title='Gadget Geeks Philippines :: Online Shopping with Great Prices and Deals'/>
             { !keyword ? <ProductCarousel/> : (
                 <Link to='/' className='btn btn-light mb-4'>
                     Go Back
