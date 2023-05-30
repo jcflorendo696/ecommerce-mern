@@ -45,22 +45,6 @@ const Header = () => {
                                         </Badge>
                                 }</Nav.Link>
                             </LinkContainer>
-                            { userInfo ? (
-
-                                <NavDropdown title={userInfo.name} id='username'>
-                                    <LinkContainer to='/profile'>
-                                        <NavDropdown.Item>Profile</NavDropdown.Item>
-                                    </LinkContainer>
-                                    <NavDropdown.Item onClick={logoutHandler}>
-                                        Logout
-                                    </NavDropdown.Item>
-                                </NavDropdown>
-
-                            ) : (
-                                <LinkContainer to="/login">
-                                    <Nav.Link><FaUser/> Sign In</Nav.Link>
-                                </LinkContainer>
-                            )}
                             { userInfo && userInfo.isAdmin && (
                                 <NavDropdown title='Manage' id='adminmenu'>
                                     <LinkContainer to='/admin/productlist'>
@@ -74,7 +58,21 @@ const Header = () => {
                                     </LinkContainer>
                                 </NavDropdown>
                             )}
-                            
+                            { userInfo ? (
+                                <NavDropdown title={userInfo.name} id='username'>
+                                    <LinkContainer to='/profile'>
+                                        <NavDropdown.Item>Profile</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <NavDropdown.Item onClick={logoutHandler}>
+                                        Logout
+                                    </NavDropdown.Item>
+                                </NavDropdown>
+
+                                ) : (
+                                <LinkContainer to="/login">
+                                    <Nav.Link><FaUser/> Sign In</Nav.Link>
+                                </LinkContainer>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
