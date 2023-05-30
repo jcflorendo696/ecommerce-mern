@@ -1,31 +1,25 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import Footer__Generic from './Footer__Generic';
 import Footer__Payments from './Footer__Payments';
-import { useLocation } from 'react-router-dom';
+import { useMatch, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import Footer__Admin from './Footer__Admin';
 
 function Footer(){
     const [footer_global, setFooter] = useState();
     const currentYear = new Date().getFullYear();
-    const loc = useLocation();
+    const isAdminRoute = useMatch('/admin/*');
+    const isProductRoute = useMatch('/product/*');
+    const isGenericRoute = useMatch('/');
     const { userInfo } = useSelector(state => state.auth);
-
-    useEffect(()=>{
-        if(loc.pathname === '/'){
-            setFooter('generic');
-        }else{
-            setFooter('others');
-        }
-        
-    }, [loc])
 
     return(
         <footer>
             <Container>
-                { footer_global == 'generic' 
-                    && <Footer__Generic/>
-                }
+                { isGenericRoute && <Footer__Generic/> }
+                { isAdminRoute   && <Footer__Admin/> }
+                { isProductRoute && <Footer__Payments/> }
                 <Row>
                     <Col className="text-center py-3">
                         <p>Gadget Geeks  &copy; { currentYear }</p>
