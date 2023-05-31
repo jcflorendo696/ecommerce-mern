@@ -27,11 +27,26 @@ const upload = multer({
     storage,
 });
 
-router.post('/', upload.single('image'), (req, res) => {
-    res.send({
-        message: 'Image Uploaded',
-        image: `/${req.file.path}`
-    });
+router.post('/', upload.fields([
+        { name: 'image', maxCount: 1 },
+        { name: 'banner_image', maxCount: 1 }
+    ]), (req, res) => {
+
+    const { image, banner_image } = req.files;
+
+    if(image){
+        res.send({
+            message: 'Image Uploaded',
+            image: `/${image[0].path}`
+        });
+    } else if (banner_image){
+        res.send({
+            message: 'Banner Image Uploaded',
+            bannerImage: `/${banner_image[0].path}`
+        });
+
+        console.log('banner_image condition');
+    }
 });
 
 export default router;

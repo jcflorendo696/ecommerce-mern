@@ -5,7 +5,12 @@ import Message from '../../components/Message';
 import Loader from '../../components/Loading';
 import FormContainer from '../../components/FormContainer';
 import { toast } from 'react-toastify';
-import { useUpdateProductMutation, useGetProductDetailsQuery, useUploadProductImageMutation } from '../../slices/productsApiSlice';
+import { 
+         useUpdateProductMutation,
+         useGetProductDetailsQuery, 
+         useUploadProductImageMutation,
+         useUploadProductBannerImageMutation
+        } from '../../slices/productsApiSlice';
 
 
 const ProductEditScreen = () => {
@@ -14,6 +19,7 @@ const ProductEditScreen = () => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [image, setImage] = useState('');
+    const [banner_image, setBannerImage] = useState('');
     const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const [countInStock, setCountInStock] = useState(0);
@@ -27,6 +33,8 @@ const ProductEditScreen = () => {
 
     const [uploadProductImage, { isLoading: loadingUpload }] = useUploadProductImageMutation();
 
+    const [uploadProductBannerImage, { isLoading: loadingBannerUpload}] = useUploadProductBannerImageMutation();
+
     const submitHandler = async (e) => {
         e.preventDefault();
         const updatedProduct = {
@@ -34,6 +42,7 @@ const ProductEditScreen = () => {
             name,
             price,
             image,
+            banner_image,
             brand,
             category,
             description,
@@ -68,11 +77,24 @@ const ProductEditScreen = () => {
         console.log(e.target.files[0]);
     }
 
+    const uploadBannerImageFileHandler = async (e) => {
+        const formData = new FormData();
+        formData.append('banner_image', e.target.files[0]);
+        try{
+            const res = await uploadProductBannerImage(formData).unwrap();
+            toast.success(res.message);
+            setBannerImage(res.bannerImage);
+        }catch(err){
+            toast.error(err?.data?.message || err.error);
+        }
+    }
+
     useEffect(()=>{
         if(product){
             setName(product.name);
             setPrice(product.price);
             setImage(product.image);
+            setBannerImage(product.bannerImage);
             setBrand(product.brand);
             setCategory(product.category);
             setCountInStock(product.countInStock);
@@ -108,6 +130,14 @@ const ProductEditScreen = () => {
                             <Form.Control type='file' label='Choose file' onChange={ uploadFileHandler }></Form.Control>
                         </Form.Group>
                         {loadingUpload && <Loader></Loader>}
+                        
+                        <Form.Group controlId='banner_image' className='my-2'>
+                            <Form.Label>Banner Image</Form.Label>
+                            <Form.Control type='text' placeholder='Enter banner image url ' value={banner_image} onChange={ (e)=> setBannerImage }></Form.Control>
+                            <Form.Control type='file' label='Choose file' onChange={ uploadBannerImageFileHandler }></Form.Control>
+                        </Form.Group>
+                        {loadingBannerUpload && <Loader></Loader>}
+
                         <Form.Group controlId='brand' className='my-3'>
                             <Form.Label>Brand</Form.Label>
                             <Form.Control type='text' placeholder='Enter brand' value={brand} onChange={(e) => setBrand(e.target.value)}>

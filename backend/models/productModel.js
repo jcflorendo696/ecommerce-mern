@@ -36,6 +36,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    bannerImage: {
+        type: String,
+        required: true
+    },
     brand: {
         type: String,
         required: true

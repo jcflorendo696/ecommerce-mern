@@ -6,6 +6,10 @@ main {
   width: 120px;
 }
 
+.img-fluid{
+  width: 100%;
+}
+
 .rating span {
   margin: 0.1rem;
 }
