@@ -3,4 +3,5 @@ node_modules
 .env
 uploads/*png
 uploads/*jpg
+uploads/*jpeg
 .DS_Store
