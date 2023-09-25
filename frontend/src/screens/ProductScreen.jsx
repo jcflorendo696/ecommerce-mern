@@ -4,7 +4,7 @@ import Rating from '../components/Rating';
 import { useGetProductDetailsQuery, useCreateReviewMutation } from '../slices/productsApiSlice';
 import Loader from '../components/Loading';
 import Message from '../components/Message';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { addToCart } from '../slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -16,7 +16,9 @@ const ProductScreen = () => {
     const { data: product, isLoading, error, refetch } = useGetProductDetailsQuery(productId);
     const [createReview, { isLoading:loadingProductReview }] = useCreateReviewMutation();
     
-    const [qty, setQty] = useState(1);
+    const refQty = useRef(1);
+
+    //const [qty, setQty] = useState(1);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     
@@ -26,7 +28,7 @@ const ProductScreen = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     const addToCartHandler = () => {
-        dispatch(addToCart({...product, qty }));
+        dispatch(addToCart({...product, qty: refQty.current.newQty }));
         navigate('/cart');
     }
 
@@ -45,6 +47,10 @@ const ProductScreen = () => {
         }catch(err){
             toast.error(err?.data?.message || err.error);
         }
+    }
+
+    const refQtyHandler = (qty) => {
+        refQty.current.newQty = qty;
     }
 
     return (
@@ -101,7 +107,7 @@ const ProductScreen = () => {
                                                 <Row>
                                                     <Col>Qty</Col>
                                                     <Col>
-                                                        <Form.Control as="select" value={qty} onChange={(e)=>setQty(Number(e.target.value))}>{[...Array(product.countInStock).keys()].map(
+                                                        <Form.Control as="select" value={refQty.current.newQty} ref={refQty} onChange={(e)=>refQtyHandler(Number(e.target.value))}>{[...Array(product.countInStock).keys()].map(
                                                             (x)=>(
                                                                 <option key={x+1} value={x+1}>
                                                                     {x+1}
